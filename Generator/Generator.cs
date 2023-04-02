@@ -10,6 +10,9 @@ public class Generator
     {
         var translationsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "src", "translations");
         var translationFiles = Directory.GetFiles(Path.Combine(translationsDirectory, "src"));
+        var mainTranslationFile = Path.Combine(translationsDirectory, "src", "da.json");
+        var mainTranslationText = File.ReadAllText(mainTranslationFile);
+        var mainTranslationEntries = JsonConvert.DeserializeObject<Dictionary<string, string>>(mainTranslationText);
         foreach (var file in translationFiles)
         {
             var text = File.ReadAllText(file);
@@ -22,10 +25,15 @@ public class Generator
                 generatedFile += $"{entry.Key}: ({parameters}) => {{return `{GenerateReturnValue(entry.Value)}`}},\n";
             }
             generatedFile += "}";
-            Console.WriteLine(generatedFile);
-            var oldFileName=new FileInfo(file).Name;
+            var oldFileName = new FileInfo(file).Name;
             var generatedFileName = new FileInfo(file).Name.Substring(0, oldFileName.Length - 4) + "js";
             File.WriteAllText(Path.Combine(translationsDirectory, "generated", generatedFileName), generatedFile);
+            if (!mainTranslationEntries.All(e => translationEntries.ContainsKey(e.Key)))
+            {
+                var missingKeys = mainTranslationEntries.Where(e => !translationEntries.ContainsKey(e.Key)).Select(e => e.Key).ToArray();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Warning: {file} is missing translation keys:\n{string.Join("\n", missingKeys)}");
+            }
         }
     }
 
@@ -51,7 +59,7 @@ public class Generator
         foreach (Match match in matches)
         {
             var parameter = match.Value; // {name}, {name@gmail.com}
-            returnValue = returnValue.Replace(parameter,$"${parameter}");
+            returnValue = returnValue.Replace(parameter, $"${parameter}");
         }
         return returnValue;
     }
