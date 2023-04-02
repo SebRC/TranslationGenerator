@@ -2,36 +2,37 @@
 using Newtonsoft.Json;
 
 namespace Generator;
-public class Generator
+public partial class Generator
 {
-    private readonly Regex _curlyBraceRegex = new Regex("{(.*?)}");
+    [GeneratedRegex("{(.*?)}")]
+    private static partial Regex CurlyBracesregex();
+    private readonly Regex _curlyBraceRegex = CurlyBracesregex();
 
     public void GenerateTranslations()
     {
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Generating translations");
         var translationsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "src", "translations");
         var translationFiles = Directory.GetFiles(Path.Combine(translationsDirectory, "src"));
         var mainTranslationFile = Path.Combine(translationsDirectory, "src", "da.json");
         var mainTranslationText = File.ReadAllText(mainTranslationFile);
         var mainTranslationEntries = JsonConvert.DeserializeObject<Dictionary<string, string>>(mainTranslationText);
+        if (mainTranslationEntries is null)
+        {
+            throw new Exception($"Error reading main translation file {mainTranslationFile}");
+        };
         foreach (var file in translationFiles)
         {
             var text = File.ReadAllText(file);
             var translationEntries = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
-            if (!mainTranslationEntries.All(e => translationEntries.ContainsKey(e.Key)))
+            if (translationEntries is null)
             {
-                var missingEntries = mainTranslationEntries.Where(e => !translationEntries.ContainsKey(e.Key)).ToArray();
-                var missingKeys = missingEntries.Select(e => e.Key).ToArray();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Warning: The file {file.Substring(file.Length - 7)} has missing translation keys.\n" +
-                    $"The following keys will be added to the file and their values will be populated with values from the main translation file:\n{string.Join("\n", missingKeys)}");
-                foreach (var entry in missingEntries)
-                {
-                    translationEntries[entry.Key] = entry.Value;
-                }
-                var newJson = JsonConvert.SerializeObject(translationEntries, Formatting.Indented);
-                File.WriteAllText(file, newJson);
-                Console.ForegroundColor = ConsoleColor.Green;
+                continue;
+            };
+            var hasMissingKeys = !mainTranslationEntries.All(e => translationEntries.ContainsKey(e.Key));
+            if (hasMissingKeys)
+            {
+                AddMissingKeys(mainTranslationEntries, file, translationEntries);
             }
 
             var generatedFile = "export const translator = {\n";
@@ -46,6 +47,22 @@ public class Generator
             File.WriteAllText(Path.Combine(translationsDirectory, "generated", generatedFileName), generatedFile);
         }
         Console.WriteLine("Finished generating translations");
+    }
+
+    private static void AddMissingKeys(Dictionary<string, string> mainTranslationEntries, string file, Dictionary<string, string> translationEntries)
+    {
+        var missingEntries = mainTranslationEntries.Where(e => !translationEntries.ContainsKey(e.Key)).ToArray();
+        var missingKeys = missingEntries.Select(e => e.Key).ToArray();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"Warning: The file {file.Substring(file.Length - 7)} has missing translation keys.\n" +
+            $"The following keys will be added to the file and their values will be populated with values from the main translation file:\n{string.Join("\n", missingKeys)}");
+        foreach (var entry in missingEntries)
+        {
+            translationEntries[entry.Key] = entry.Value;
+        }
+        var newJson = JsonConvert.SerializeObject(translationEntries, Formatting.Indented);
+        File.WriteAllText(file, newJson);
+        Console.ForegroundColor = ConsoleColor.Green;
     }
 
     private string GetParameters(string value)
@@ -79,4 +96,5 @@ public class Generator
     {
         return _curlyBraceRegex.Matches(value);
     }
+
 }
