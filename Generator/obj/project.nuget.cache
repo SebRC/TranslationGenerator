@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "PEs+o64P+wWe8mh5/tbIdDE4+llWRUr+Kim/tTK6d65nF6RtGjKZZS3sEJIndOI2KY9V+WQIourUmyZMz1QSGQ==",
+  "success": true,
+  "projectFilePath": "/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/Generator.csproj",
+  "expectedPackageFiles": [
+    "/Users/sebastianchristiansen/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

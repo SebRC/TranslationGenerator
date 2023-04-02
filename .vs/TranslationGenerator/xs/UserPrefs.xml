@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{F952805F-FFE0-41F6-BA44-CFE3AF5BC787}|Default">
+  <MonoDevelop.Ide.ItemProperties.Generator PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/Generator.cs" relfile="Generator/Generator.cs" line="9" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Generator/Generator.cs">
+    <Files>
+      <File FileName="Generator/Program.cs" Line="3" Column="1" />
+      <File FileName="Generator/Generator.cs" Line="9" Column="1" />
+      <File FileName="Generator/TranslationKey.cs" Line="5" Column="46" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="TranslationGenerator" expanded="True">
+            <Node name="Generator" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>

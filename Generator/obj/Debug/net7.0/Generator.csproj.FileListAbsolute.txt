@@ -1,0 +1,17 @@
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.deps.json
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.runtimeconfig.json
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.dll
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.pdb
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.csproj.AssemblyReference.cache
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.AssemblyInfoInputs.cache
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.AssemblyInfo.cs
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.csproj.CoreCompileInputs.cache
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.csproj.CopyComplete
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.dll
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/refint/Generator.dll
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.pdb
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/Generator.genruntimeconfig.cache
+/Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/obj/Debug/net7.0/ref/Generator.dll

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>cp /Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.dll /Users/sebastianchristiansen/Desktop/Projects/wedding-app/src/translations/translationGeneration</command>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>cp /Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.deps.json /Users/sebastianchristiansen/Desktop/Projects/wedding-app/src/translations/translationGeneration</command>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>cp /Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.pdb /Users/sebastianchristiansen/Desktop/Projects/wedding-app/src/translations/translationGeneration</command>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>cp /Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Generator.runtimeconfig.json /Users/sebastianchristiansen/Desktop/Projects/wedding-app/src/translations/translationGeneration</command>
+        </Command>
+        <Command>
+          <type>AfterBuild</type>
+          <command>cp /Users/sebastianchristiansen/Desktop/Projects/TranslationGenerator/Generator/bin/Debug/net7.0/Newtonsoft.Json.dll /Users/sebastianchristiansen/Desktop/Projects/wedding-app/src/translations/translationGeneration</command>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>
