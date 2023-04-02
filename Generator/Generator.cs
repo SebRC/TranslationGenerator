@@ -8,6 +8,7 @@ public class Generator
 
     public void GenerateTranslations()
     {
+        Console.WriteLine("Generating translations");
         var translationsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "src", "translations");
         var translationFiles = Directory.GetFiles(Path.Combine(translationsDirectory, "src"));
         var mainTranslationFile = Path.Combine(translationsDirectory, "src", "da.json");
@@ -17,6 +18,21 @@ public class Generator
         {
             var text = File.ReadAllText(file);
             var translationEntries = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+            if (!mainTranslationEntries.All(e => translationEntries.ContainsKey(e.Key)))
+            {
+                var missingEntries = mainTranslationEntries.Where(e => !translationEntries.ContainsKey(e.Key)).ToArray();
+                var missingKeys = missingEntries.Select(e => e.Key).ToArray();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Warning: The file {file.Substring(file.Length - 7)} has missing translation keys.\n" +
+                    $"The following keys will be added to the file and their values will be populated with values from the main translation file:\n{string.Join("\n", missingKeys)}");
+                foreach (var entry in missingEntries)
+                {
+                    translationEntries[entry.Key] = entry.Value;
+                }
+                var newJson = JsonConvert.SerializeObject(translationEntries, Formatting.Indented);
+                File.WriteAllText(file, newJson);
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
 
             var generatedFile = "export const translator = {\n";
             foreach (var entry in translationEntries)
@@ -28,13 +44,8 @@ public class Generator
             var oldFileName = new FileInfo(file).Name;
             var generatedFileName = new FileInfo(file).Name.Substring(0, oldFileName.Length - 4) + "js";
             File.WriteAllText(Path.Combine(translationsDirectory, "generated", generatedFileName), generatedFile);
-            if (!mainTranslationEntries.All(e => translationEntries.ContainsKey(e.Key)))
-            {
-                var missingKeys = mainTranslationEntries.Where(e => !translationEntries.ContainsKey(e.Key)).Select(e => e.Key).ToArray();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Warning: {file} is missing translation keys:\n{string.Join("\n", missingKeys)}");
-            }
         }
+        Console.WriteLine("Finished generating translations");
     }
 
     private string GetParameters(string value)
