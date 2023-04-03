@@ -13,6 +13,11 @@ public partial class Generator
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Generating translations");
         var translationsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "src", "translations");
+        var generatedDirectory = Path.Combine(translationsDirectory, "generated");
+        if (!Directory.Exists(generatedDirectory))
+        {
+            Directory.CreateDirectory(generatedDirectory);
+        }
         var translationFiles = Directory.GetFiles(Path.Combine(translationsDirectory, "src"));
         var mainTranslationFile = Path.Combine(translationsDirectory, "src", "da.json");
         var mainTranslationText = File.ReadAllText(mainTranslationFile);
