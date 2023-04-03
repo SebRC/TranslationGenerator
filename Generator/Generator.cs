@@ -35,19 +35,62 @@ public partial class Generator
                 AddMissingKeys(mainTranslationEntries, file, translationEntries);
             }
 
-            var generatedFile = "export const translator = {\n";
+            var generatedFile = "export const translator = (t: (key: string, params?: any) => string) => {\nreturn {";
             foreach (var entry in translationEntries)
             {
+                if (ShouldDeferToI18(entry.Value))
+                {
+                    generatedFile += CreateI18Entry(entry);
+                    continue;
+                }
                 var parameters = GetParameters(entry.Value);
                 generatedFile += $"{entry.Key}: ({parameters}) => {{return `{GenerateReturnValue(entry.Value)}`}},\n";
             }
-            generatedFile += "}";
+            generatedFile += "}\n}";
             var oldFileName = new FileInfo(file).Name;
-            var generatedFileName = new FileInfo(file).Name.Substring(0, oldFileName.Length - 4) + "js";
+            var generatedFileName = new FileInfo(file).Name.Substring(0, oldFileName.Length - 4) + "ts";
             File.WriteAllText(Path.Combine(translationsDirectory, "generated", generatedFileName), generatedFile);
         }
         Console.WriteLine("Finished generating translations");
     }
+
+    private static bool ShouldDeferToI18(string value)
+    {
+        return value.Contains("plural,");
+    }
+
+    private static string CreateI18Entry(KeyValuePair<string, string> entry)
+    {
+        var parameter = ExtractVariable(entry.Value);
+        var i18Entry = $"{entry.Key}: ({parameter}: string) => t(\"{entry.Key}\", {{{parameter}: {parameter}}}),\n";
+        return i18Entry;
+    }
+
+
+    public static string ExtractVariable(string input)
+    {
+        // Define the regex pattern to match a word between "{" and ","
+        string pattern = @"{(\w+),.*?}";
+
+        // Create a regex object with the pattern
+        Regex regex = new Regex(pattern);
+
+        // Match the input string with the regex
+        Match match = regex.Match(input);
+
+        // If no match is found, return null to indicate an error
+        if (!match.Success)
+        {
+            return null;
+        }
+
+        // Extract the word from the matched string
+        string word = match.Groups[1].Value;
+
+        // Return the word
+        return word;
+    }
+
 
     private static void AddMissingKeys(Dictionary<string, string> mainTranslationEntries, string file, Dictionary<string, string> translationEntries)
     {
@@ -74,7 +117,7 @@ public partial class Generator
             var match = matches[i];
             var parameter = match.Groups[1].Value;
             var isLastMatch = i == matches.Count - 1;
-            parameters += isLastMatch ? $"{parameter}" : $"{parameter}, ";
+            parameters += isLastMatch ? $"{parameter}: string" : $"{parameter}: string, ";
         }
         return parameters;
     }
