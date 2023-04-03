@@ -56,7 +56,7 @@ public partial class Generator
 
     private static bool ShouldDeferToI18(string value)
     {
-        return value.Contains("plural,");
+        return value.Contains("plural,") || value.Contains("select,");
     }
 
     private static string CreateI18Entry(KeyValuePair<string, string> entry)
